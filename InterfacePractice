@@ -1,0 +1,86 @@
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("*************************************");
+        System.out.println("Dog is");
+
+        Animals myDog = new Dog();
+        myDog.makeSound();
+        myDog.runOrwalk();
+        myDog.eatRegularOrNot(true);
+
+        System.out.println("*************************************");
+        System.out.println("Cat is");
+
+        Animals myCat = new Cat();
+        myCat.makeSound();
+        myCat.runOrwalk();
+        myCat.eatRegularOrNot(true);
+        Animals.info();
+
+        System.out.println("*************************************");
+        System.out.println("Bee is");
+
+        Animals myBee = new Bee();
+        myBee.makeSound();
+        myBee.runOrwalk();
+        myBee.eatRegularOrNot(false);
+
+        System.out.println("*************************************");
+    }
+}
+--------------------------------------
+public class Dog implements Animals {
+
+    @Override
+    public void makeSound() {
+        System.out.println("Woof!");
+    }
+    @Override
+    public void runOrwalk() {
+        System.out.println("Run!");
+
+    }
+}
+--------------------------------------
+public class Cat implements Animals {
+
+    @Override
+    public void makeSound() {
+        System.out.println("Miau!");
+    }
+    @Override
+    public void runOrwalk() {
+        System.out.println("Walk");
+
+    }
+}
+--------------------------------------
+public class Bee implements Animals {
+
+    @Override
+    public void makeSound() {
+        System.out.println("Bzzzz");
+    }
+    @Override
+    public void runOrwalk() {
+        System.out.println("Fly");
+    }
+
+}
+---------------------------------------
+public interface Animals {
+    void makeSound();
+    void runOrwalk();
+
+    default void eatRegularOrNot(boolean b) {
+        if (b) {
+            System.out.println("This animal eats regular food.");
+        } else {
+            System.out.println("This animal eats not regular food.");
+        }
+    }
+
+    static void info() {
+        System.out.println("Animal are sleep.");
+    }
+}
