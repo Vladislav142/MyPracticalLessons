@@ -1,0 +1,85 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+                new Person("Іван", 29),
+                new Person("Оля", 26),
+                new Person("Андрій", 19),
+                new Person("Влад", 15),
+                new Person("Коля", 12)
+        );
+        List<Person> adults = Utils.filter(people, p -> p.getAge() >= 18);
+        System.out.println("Дорослі: " + adults);
+
+        List<Person> child = Utils.filter(people, p -> p.getAge() <= 18);
+        System.out.println("Діти: " + child);
+
+
+        Person oldest = Utils.max(people, Comparator.comparingInt(Person::getAge));
+        System.out.println("Найстарший: " + oldest);
+
+        Person youngest = Utils.min(people, Comparator.comparingInt(Person::getAge));
+        System.out.println("Наймолодший: " + youngest);
+    }
+}
+-------------------------------------------
+
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
+-------------------------------------------
+
+import java.util.*;
+import java.util.function.Predicate;
+
+public class Utils {
+
+
+    public static <T> List<T> filter(List<T> list, Predicate<T> condition) {
+        List<T> result = new ArrayList<>();
+        for (T item : list) {
+            if (condition.test(item)) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+
+    public static <T> T max(List<? extends T> list, Comparator<? super T> comparator) {
+        if (list == null || list.isEmpty()) return null;
+        T max = list.get(0);
+        for (T item : list) {
+            if (comparator.compare(item, max) > 0) {
+                max = item;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T min(List<? extends T> list, Comparator<? super T> comparator) {
+        if (list == null || list.isEmpty()) return null;
+        T min = list.get(0);
+        for (T item : list) {
+            if (comparator.compare(item, min) < 0) {
+                min = item;
+            }
+        }
+        return min;
+    }
+}
