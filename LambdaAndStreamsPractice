@@ -1,0 +1,118 @@
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<People> people = Arrays.asList(
+                new People("Влад", 23),
+                new People("Коля", 24),
+                new People("Арсен", 25),
+                new People("Андрій", 24),
+                new People("Вова", 23),
+                new People("Діма", 22),
+                new People("Ілля", 15)
+        );
+
+        List<People> result = people.stream()
+                    .filter(p -> p.name.startsWith("А"))
+                    .toList();
+        result.forEach(System.out::println);
+
+        System.out.println("------------------------------------------");
+
+        List<People> result1 = people.stream()
+                .filter(p -> p.age >= 24)
+                .sorted(Comparator.comparing(p -> p.name))
+                .toList();
+        result1.forEach(System.out::println);
+
+        List<People> result2 = people.stream()
+                .filter(p -> p.age >= 20 && p.age <= 23)
+                .toList();
+        result2.forEach(System.out::println);
+
+        System.out.println("------------------------------------------");
+
+        boolean Adults = people.stream()
+                .allMatch(p -> p.age >= 18);
+        System.out.println("Усі повнолітні? " + Adults);
+
+        boolean Adults2 = people.stream()
+                .anyMatch(p -> p.age >= 30);
+        System.out.println("Є хтось кому більше 30 років? " + Adults2);
+
+        boolean Adults3 = people.stream()
+                .anyMatch(p -> p.age <= 17);
+        System.out.println("Є хтось неповнолітній? " + Adults3);
+
+        System.out.println("------------------------------------------");
+
+        long count = people.stream()
+                .filter(p -> p.age >= 25)
+                .count();
+        System.out.println("Багато тих кому більше 25? " + count);
+
+        long count1 = people.stream()
+                .filter(p -> p.age >= 18 && p.age <= 24)
+                .count();
+        System.out.println("Скільки тих кому від 18 до 24 років? " + count1);
+
+        long count2 = people.stream()
+                .filter(p -> p.age < 18)
+                .count();
+        System.out.println("Скільки тих кому менше 18 " + count2);
+
+        System.out.println("------------------------------------------");
+
+        Optional<People> oldest = people.stream()
+                .max(Comparator.comparing(p -> p.age));
+        System.out.println("Найстрашний:" + oldest);
+
+        Optional<People> youngest = people.stream()
+                .min(Comparator.comparing(p -> p.age));
+        System.out.println("Найменший:" + youngest);
+
+        System.out.println("------------------------------------------");
+
+        Optional<People> firstOver18 = people.stream()
+                .filter(p -> p.age >= 18)
+                .min(Comparator.comparing(p -> p.age));
+        System.out.println("Наймолодший з повнолітніх" + firstOver18);
+
+        System.out.println("------------------------------------------");
+
+        Map<Integer, List<People>> groupedByAge = people.stream()
+                .collect(Collectors.groupingBy(p -> p.age));
+        System.out.println(groupedByAge);
+
+        System.out.println("------------------------------------------");
+
+        List<String> names = people.stream()
+                .map(p -> p.name)
+                .collect(Collectors.toList());
+        System.out.println(names);
+
+        List<String> adultNames = people.stream()
+                .filter(p -> p.age >= 18)
+                .map(p -> p.name.toUpperCase())
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println("Дорослими є:" + adultNames);
+    }
+}
+
+-----------------------------------------------------
+
+public class People {
+    String name;
+    int age;
+
+    public People(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    public String toString() {
+        return name + " (" + age + ")";
+    }
+}
