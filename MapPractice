@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+
+        map.put("Яблука", 10);
+        map.put("Апельсини", 20);
+        map.put("Банани", 15);
+        map.put("Огірки", 11);
+        map.put("Цибуля", 27);
+        map.put("Помідори", 10);
+
+        System.out.println("Скисок товарів та їх кількість:");
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            String fruit = entry.getKey();
+            Integer quantity = entry.getValue();
+            System.out.println(fruit + ":" + quantity);
+        }
+
+        System.out.println("--------------------------------------------");
+
+        System.out.println("Кількість яблук: " + map.get("Яблука"));
+        System.out.println("Чи є банани? " + map.containsKey("Банани"));
+        System.out.println("Усі товари: " + map.keySet());
+
+        System.out.println("--------------------------------------------");
+
+        System.out.println(map.containsValue(27));
+        System.out.println(map.containsValue(26));
+
+        System.out.println("--------------------------------------------");
+
+        map.remove("Помідори");
+        System.out.println("Усі товари: " + map.keySet());
+        map.putIfAbsent("Помідори", 18);
+        System.out.println("Усі товари: " + map.keySet());
+        System.out.println("Чи є Помідори? " + map.containsKey("Помідори"));
+        System.out.println("Кількість Помідори: " + map.get("Помідори"));
+        map.replace("Помідори", 21);
+        System.out.println("Кількість Помідори: " + map.get("Помідори"));
+        map.remove("Помідори");
+        System.out.println("Чи є Помідори? " + map.containsKey("Помідори"));
+        map.putIfAbsent("Помідори", 25);
+        map.merge("Помідори", 30, (oldVal, newVal) -> oldVal + newVal);
+        System.out.println(map);
+
+        System.out.println("--------------------------------------------");
+    }
+}
