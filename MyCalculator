@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("---------------------------------------------------\n" +
+                " At this Calculator you can use next option:" +
+                " \n / * + -" +
+                " \n For first enter two number and after choose math method \n" +
+                "---------------------------------------------------");
+
+        System.out.println("A num:");
+        int a = scanner.nextInt();
+        System.out.println("b num:");
+        int b = scanner.nextInt();
+
+        System.out.println("Method:");
+        String method = scanner.next();
+
+        switch (method) {
+            case "/" -> {
+                try {
+                    int result = a / b;
+                    System.out.println("Result: " + result);
+                } catch (ArithmeticException e) {
+                    System.out.println("Error: Division by zero is not allowed.");
+                }
+            }
+            case "*" -> {
+                int result = a * b;
+                System.out.println("Result:" + result);
+            }
+            case "-" -> {
+                int result = a - b;
+                System.out.println("Result:" + result);
+            }
+            case "+" -> {
+                int result = a + b;
+                System.out.println("Result:" + result);
+            }
+            default -> System.out.println("Error");
+        }
+    }
+}
