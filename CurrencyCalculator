@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(
+                "----------------------------------------------------------------------------\n" +
+                " In this calculator you can calculate how many $ you have in relation to ₴\n" +
+                "----------------------------------------------------------------------------");
+
+        System.out.println("Current exchange rate of $ to ₴:");
+        double first = Double.parseDouble(scanner.next().replace(',', '.'));
+
+        System.out.println("You have $:");
+        int second = scanner.nextInt();
+
+        double result = first * second;
+
+        System.out.println("Result: " + result + "₴");
+        scanner.close();
+    }
+}
