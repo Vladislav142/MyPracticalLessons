@@ -1,0 +1,61 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        try {
+            java.net.URL url = new java.net.URL("https://api.monobank.ua/bank/currency");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            String json = response.toString();
+            String[] entries = json.split("},\\{");
+            double CurrentCourse = 0;
+
+            for (String entry : entries) {
+                if (entry.contains("\"currencyCodeA\":840") && entry.contains("\"currencyCodeB\":980")) {
+                    int start = entry.indexOf("\"rateBuy\":") + 10;
+                    int end = entry.indexOf(",", start);
+                    if (start > 0 && end > start) {
+                        String rateStr = entry.substring(start, end);
+                        CurrentCourse = Double.parseDouble(rateStr);
+                        break;
+                    }
+                }
+            }
+            if (CurrentCourse == 0) {
+                System.out.println("Not found $ → ₴");
+                return;
+            }
+
+        Scanner scanner = new Scanner(System.in);
+            System.out.println("""
+                            ----------------------------------------------------------------------------
+                             In this calculator you can calculate how many ₴ you have in relation to $
+                            ----------------------------------------------------------------------------""");
+
+            System.out.println("Current exchange rate of $ to ₴:" + CurrentCourse);
+
+            System.out.println("You have $:");
+            int AmountDollars = scanner.nextInt();
+
+            double result = CurrentCourse * AmountDollars;
+
+            System.out.println("Result: " + result + "₴");
+            scanner.close();
+            
+             } catch (Exception e) {
+            System.out.println("Помилка: " + e.getMessage());
+        }
+    }
+}
